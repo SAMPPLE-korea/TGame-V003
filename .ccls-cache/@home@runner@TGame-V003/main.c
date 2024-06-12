@@ -32,7 +32,8 @@
 /* 변수들... 이긴한데 자료형을 어케해야할지 몰라서 이상함 */
 int user_select = 0;
 char user_name[128];         //유저 이름 받기
-char command[128];           //명령어 받기
+char user_command[128];      //명령어 받기
+char user_location[128];     //유저 위치
 int user_money = 100;        //유저 머니
 int user_def = 0;            //유저 방어력
 int user_hp_max = 100;       //유저 최대 hp
@@ -247,7 +248,7 @@ printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
    printm("아이디 생성 절차 종료. ");
   printm("스텔라이프를 즐겨보세요!");
   printmd();
-
+  char user_location[128] = "메인-관리-2";
   user_level=1;//튜토리얼 봤는지에 대한 정보
   maingame();//메인 게임
 
@@ -258,7 +259,9 @@ int userInfo(){//내정보
   printf("┃ UserId : ");//유저이름
   printf("%s",user_name);
   printf("\n");
-  printm("Location : 아직임");
+  printf("┃ Location : ");
+  printf(user_location);
+  printf("\n");
   printmd();
   return 0;
 }
@@ -271,24 +274,24 @@ int maingame(){//메인게임
   }
 while(1){//명령어사용을 위한 무한 반복
   printf("▶");
-  scanf("%s", command);
+  scanf("%s", user_command);
   usleep(100000);
-  if(strcmp(command, "help") == 0||strcmp(command, "도움") == 0||strcmp(command, "가이드") == 0)
+  if(strcmp(user_command, "help") == 0||strcmp(user_command, "도움") == 0||strcmp(user_command, "가이드") == 0)
   {//가이드&도움 명령어
     guide();
   }
-  else if(strcmp(command, "exit") == 0||strcmp(command, "나가기") == 0)
+  else if(strcmp(user_command, "exit") == 0||strcmp(user_command, "나가기") == 0)
   {//나가기 명령어
   main();
   }
-  else if(strcmp(command, "info") == 0||strcmp(command, "정보") == 0)
+  else if(strcmp(user_command, "info") == 0||strcmp(user_command, "정보") == 0)
   {//내 정보 표시
     userInfo();
 
   }
-  else if(strcmp(command, "map") == 0||strcmp(command, "맵") == 0||strcmp(command, "위치") == 0)
+  else if(strcmp(user_command, "map") == 0||strcmp(user_command, "맵") == 0||strcmp(user_command, "위치") == 0)
   {
-    
+    printm1l(user_location);
   }
   else
   {//아무것도 해당되지 않는 명령어 일때
