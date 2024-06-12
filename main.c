@@ -33,7 +33,7 @@
 int user_select = 0;
 char user_name[128];         //유저 이름 받기
 char user_command[128];      //명령어 받기
-char user_location[128];     //유저 위치
+char *user_location;     //유저 위치
 int user_money = 100;        //유저 머니
 int user_def = 0;            //유저 방어력
 int user_hp_max = 100;       //유저 최대 hp
@@ -209,7 +209,6 @@ void startGame() {//게임 시작
 
 
 
-  usleep(500000);
   printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");//스토리 3
   printm("Guider : 귀하께서는 이 프로젝트의");
   printm("마지막 동면자였습니다.");
@@ -248,7 +247,7 @@ printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
    printm("아이디 생성 절차 종료. ");
   printm("스텔라이프를 즐겨보세요!");
   printmd();
-  char user_location[128] = "메인-관리-2";
+  char *user_location = "메인-관리-2";
   user_level=1;//튜토리얼 봤는지에 대한 정보
   maingame();//메인 게임
 
@@ -260,7 +259,7 @@ int userInfo(){//내정보
   printf("%s",user_name);
   printf("\n");
   printf("┃ Location : ");
-  printf(user_location);
+  printf("%s", user_location);
   printf("\n");
   printmd();
   return 0;
@@ -291,7 +290,11 @@ while(1){//명령어사용을 위한 무한 반복
   }
   else if(strcmp(user_command, "map") == 0||strcmp(user_command, "맵") == 0||strcmp(user_command, "위치") == 0)
   {
-    printm1l(user_location);
+    printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
+    printf("┃ Location : ");
+  printf("%s", user_location);
+  printf("\n");
+    printmd();
   }
   else
   {//아무것도 해당되지 않는 명령어 일때
@@ -360,7 +363,7 @@ int main()  {//메인 (가장먼저 실행)
               printm("스텔라 시스템 사용법이 궁금하시다면");
               printm("언제든지 \"help\"를 입력 하세요.");
                printmd();
-              char user_location[128] = "메인-관리-2";
+              char *user_location = "메인-관리-2";
               maingame();//메인게임
             }else{//잘못된 선택
                 user_select = 0;
