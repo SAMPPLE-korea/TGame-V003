@@ -275,7 +275,7 @@ while(1){//명령어사용을 위한 무한 반복
   printf("▶");
   scanf("%s", user_command);
   usleep(100000);
-  if(strcmp(user_command, "help") == 0||strcmp(user_command, "도움") == 0||strcmp(user_command, "가이드") == 0)
+  if(strcmp(user_command, "help") == 0||strcmp(user_command, "도움") == 0||strcmp(user_command, "가이드") == 0||strcmp(user_command, "도움말") == 0)
   {//가이드&도움 명령어
     guide();
   }
@@ -294,6 +294,9 @@ while(1){//명령어사용을 위한 무한 반복
     printf("┃ Location : ");
   printf("%s", user_location);
   printf("\n");
+    printmu("━ℕ𝕠𝕥𝕚𝕔𝕖━");
+    printm("이동가능 구역");
+    printf("ㄱㄷ 좀있다 만듬");
     printmd();
   }
   else
@@ -344,7 +347,7 @@ int main()  {//메인 (가장먼저 실행)
             printf("▶");
             scanf("%d", &user_select);
 
-            if(user_select==1){//튜토리얼 본다 했을땨
+            if(user_select==1){//튜토리얼 본다 했을때
             printm1l("튜토리얼을 시작합니다.");
             startGame();
             }else if(user_select == 2){//안본다했을때
