@@ -292,7 +292,7 @@ while(1){//명령어사용을 위한 무한 반복
   }
   else if(strcmp(command, "map") == 0||strcmp(command, "맵") == 0||strcmp(command, "위치") == 0)
   {
-
+    
   }
   else
   {//아무것도 해당되지 않는 명령어 일때
