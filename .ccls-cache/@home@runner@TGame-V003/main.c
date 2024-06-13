@@ -253,6 +253,7 @@ printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
 
 }
 
+
 int userInfo(){//내정보
   printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
   printf("┃ UserId : ");//유저이름
@@ -294,9 +295,47 @@ while(1){//명령어사용을 위한 무한 반복
     printf("┃ Location : ");
   printf("%s", user_location);
   printf("\n");
-    printmu("━ℕ𝕠𝕥𝕚𝕔𝕖━");
-    printm("이동가능 구역");
-    printf("ㄱㄷ 좀있다 만듬");
+    printml("━ℕ𝕠𝕥𝕚𝕔𝕖━");
+    printm("이동가능 구역");//이동가능구역 노가다
+        if(strcmp(user_location, "메인-관리-1")==0){
+  printm(" • 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1  메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-관리-2")==0){
+  printm(" • 메인-관리-1, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-관리-3")==0){
+  printm(" • 메인-관리-1, 메인-관리-2");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생산-1")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생산-2")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생산-3")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2");
+  printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생활-1")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-2, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생활-2")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-3");
+  }else if(strcmp(user_location, "메인-생활-3")==0){
+  printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
+  printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
+  printm(" • 메인-생활-1, 메인-생활-2");
+  }else {
+  printm("니 어딘거냐? 그딴곳은 없는데?");
+  }
     printmd();
   }
   else
