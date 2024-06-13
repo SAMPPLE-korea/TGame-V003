@@ -31,9 +31,10 @@
 
 /* 변수들... 이긴한데 자료형을 어케해야할지 몰라서 이상함 */
 int user_select = 0;
-char user_name[128];         //유저 이름 받기
+char user_name[20];          //유저 이름 받기
 char user_command[128];      //명령어 받기
-char *user_location;     //유저 위치
+char go_locate[128];         //유저 이동
+char *user_location;         //유저 위치
 int user_money = 100;        //유저 머니
 int user_def = 0;            //유저 방어력
 int user_hp_max = 100;       //유저 최대 hp
@@ -105,10 +106,11 @@ void printmll(){
  
 void guide(){//유저가이드 출력
   printmu("━━𝔾𝕦𝕚𝕕𝕖━");
-  printm("info 》 게임 내에서의 나의 정보를 표시합니다.");
+  printm("info 》 나의 정보를 표시합니다.");
   printm("help 》 명령어를 확인할 수 있습니다."); 
   printm("map  》 게임 내에서 현재 위치를 출력합니다.");
-  printm("exit 》 게임을 종료하고 메인화면으로 이동합니다."); 
+  printm("move 》 현재 위치에서 이동할 수 있습니다.");
+  printm("exit 》 게임종료 후 메인화면으로 이동합니다."); 
   printmd();
 }
 
@@ -273,22 +275,26 @@ int maingame(){//메인게임
     user_level=1;
   }
 while(1){//명령어사용을 위한 무한 반복
-  printf("▶");
-  scanf("%s", user_command);
+printf("▶");
+  scanf("%s",user_command);
   usleep(100000);
+  
   if(strcmp(user_command, "help") == 0||strcmp(user_command, "도움") == 0||strcmp(user_command, "가이드") == 0||strcmp(user_command, "도움말") == 0)
   {//가이드&도움 명령어
     guide();
   }
+    
   else if(strcmp(user_command, "exit") == 0||strcmp(user_command, "나가기") == 0)
   {//나가기 명령어
   main();
   }
+    
   else if(strcmp(user_command, "info") == 0||strcmp(user_command, "정보") == 0)
   {//내 정보 표시
     userInfo();
 
   }
+    
   else if(strcmp(user_command, "map") == 0||strcmp(user_command, "맵") == 0||strcmp(user_command, "위치") == 0)
   {
     printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
@@ -338,11 +344,41 @@ while(1){//명령어사용을 위한 무한 반복
   }
     printmd();
   }
-  else
-  {//아무것도 해당되지 않는 명령어 일때
-
+    
+  else if(strncmp(user_command, "move-", 5) == 0)
+  {
+strcpy(go_locate, user_command + 5);
+    
+        if(strcmp(user_location, go_locate)==0){
+          printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
+    printf("┃ 코드네임 \"");
+    printf("%s", user_name);
+    printf("\"님은 이미 \"");
+    printf("%s", user_location);
+    printf("\"에 있습니다.");
+    printf("\n");
+    printmd();
+        }else{
+    
+        if(strcmp(go_locate, "메인-관리-1")==0||strcmp(go_locate, "메인-관리-2")==0||strcmp(go_locate, "메인-관리-3")==0||strcmp(go_locate, "메인-생산-1")==0||strcmp(go_locate, "메인-생산-2")==0||strcmp(go_locate, "메인-생산-3")==0||strcmp(go_locate, "메인-생활-1")==0||strcmp(go_locate, "메인-생활-2")==0||strcmp(go_locate, "메인-생활-3")==0){
+              user_location=go_locate;
+               printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
+                printf("┃ \"");
+                printf("%s", user_location);
+                printf("\"으로 이동하였습니다.");
+                printf("\n");
+                printmd();
+         }else {
+      printm1l("존재하지 않는곳으로 이동할수 없습니다.");
+            }
+        }
+    
+  }else if(strcmp(user_command, "move") == 0){
+  printm1l("move-(원하는위치)와 같이 입력해주세요");
+  }else{//아무것도 해당되지 않는 명령어 일때
     printm1l("해당 명령어를 찾을수 없습니다.");
   }
+    
 }
 return 0;
 }
