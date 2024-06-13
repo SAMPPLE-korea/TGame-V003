@@ -276,9 +276,7 @@ int maingame(){//메인게임
   }
 while(1){//명령어사용을 위한 무한 반복
 printf("▶");
-  scanf("%s",user_command);
-  usleep(100000);
-  
+  scanf(" %[^\n]",user_command);
   if(strcmp(user_command, "help") == 0||strcmp(user_command, "도움") == 0||strcmp(user_command, "가이드") == 0||strcmp(user_command, "도움말") == 0)
   {//가이드&도움 명령어
     guide();
@@ -345,8 +343,8 @@ printf("▶");
     printmd();
   }
     
-  else if(strncmp(user_command, "move-", 5) == 0)
-  {
+  else if(strncmp(user_command, "move ", 5) == 0)
+  {//이동명령어
 strcpy(go_locate, user_command + 5);
     
         if(strcmp(user_location, go_locate)==0){
@@ -373,9 +371,9 @@ strcpy(go_locate, user_command + 5);
             }
         }
     
-  }else if(strcmp(user_command, "move") == 0){
-  printm1l("move-(원하는위치)와 같이 입력해주세요");
-  }else{//아무것도 해당되지 않는 명령어 일때
+  }
+  else
+  {//아무것도 해당되지 않는 명령어 일때
     printm1l("해당 명령어를 찾을수 없습니다.");
   }
     
@@ -402,7 +400,6 @@ int main()  {//메인 (가장먼저 실행)
 
         printf("▶");
         scanf("%d", &user_select);//게임메뉴 선택
-        usleep(100000);
         if (user_select == 1)  {//게임시작 부분
               user_select = 0;
 
@@ -467,7 +464,7 @@ int main()  {//메인 (가장먼저 실행)
                 printmd();
                 printf("▶");
                 scanf("%d", &user_select);
-                usleep(100000);
+                
                 if (user_select == 1)  {//메인화면으로 돌아갈지
                     printmu("━ℕ𝕠𝕥𝕚𝕔𝕖━");
                     printm("메인 화면으로 돌아갑니다.");
