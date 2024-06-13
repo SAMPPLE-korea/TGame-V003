@@ -29,19 +29,23 @@
 */
 
 
-/* 변수들... 이긴한데 자료형을 어케해야할지 몰라서 이상함 */
-int user_select = 0;
-char user_name[20];          //유저 이름 받기
+/* 유저 정보 변수 */
+struct user{
+  char name[20];             //유저 이름
+  char *location;            //유저 위치
+  int money;                 //유저 머니
+  int def;                   //유저 방어력
+  int hp_max;                //유저 최대 hp
+  int hp_now;                //유더 현재 hp
+  int atk;                   //유저 공격력
+  int energy;                //유저 에너지량
+  int level;                 //유저 레벨
+
+};
+struct user player;
+int user_select = 0;         //메뉴 선택하기
 char user_command[128];      //명령어 받기
 char go_locate[128];         //유저 이동
-char *user_location;         //유저 위치
-int user_money = 100;        //유저 머니
-int user_def = 0;            //유저 방어력
-int user_hp_max = 100;       //유저 최대 hp
-int user_hp_now = 100;       //유저 현재 체력
-int user_atk = 10;           //유저 공격력
-int user_energy = 0;         //에너지 충전 100% + 충전량
-int user_level = 0;          //유저 레벨
 
 
 /* 기본 화면 구성 함수 */
@@ -54,7 +58,7 @@ void progress(max, now){
   for(int i = 0;i < 10-per;i++){
     printf("░");
   }
-  
+
 }
 
 
@@ -103,14 +107,14 @@ void printmll(){
 
 //^^^^여기까지 텍스트 출력 관련
 
- 
+
 void guide(){//유저가이드 출력
   printmu("━━𝔾𝕦𝕚𝕕𝕖━");
   printm("info 》 나의 정보를 표시합니다.");
   printm("help 》 명령어를 확인할 수 있습니다."); 
   printm("map  》 게임 내에서 현재 위치를 출력합니다.");
   printm("move 》 현재 위치에서 이동할 수 있습니다.");
-  printm("exit 》 게임종료 후 메인화면으로 이동합니다."); 
+  printm("exit 》 게임종료후 메인화면으로 이동합니다."); 
   printmd();
 }
 
@@ -229,12 +233,12 @@ void startGame() {//게임 시작
   printm("ID 》아이디를 직접 입력하세요!");
   printmd();
   printf("▶");
-  scanf("%s", user_name);//아이디 물어보기
+  scanf("%s", player.name);//아이디 물어보기
   usleep(100000);
   printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
    printm("확인되었습니다.");
   printf("┃ \"");
-  printf("%s",user_name);
+  printf("%s",player.name);
   printf("\" 코드네임으로 등록되었습니다.\n");
   printmll();
   printm("Guider : 추후 궁금하신점이 있으시면,");
@@ -249,8 +253,8 @@ printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
    printm("아이디 생성 절차 종료. ");
   printm("스텔라이프를 즐겨보세요!");
   printmd();
-  user_location = "메인-관리-2";
-  user_level=1;//튜토리얼 봤는지에 대한 정보
+  player.location = "메인-관리-2";
+  player.level=1;//튜토리얼 봤는지에 대한 정보
   maingame();//메인 게임
 
 }
@@ -259,10 +263,10 @@ printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
 int userInfo(){//내정보
   printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
   printf("┃ UserId : ");//유저이름
-  printf("%s",user_name);
+  printf("%s",player.name);
   printf("\n");
   printf("┃ Location : ");
-  printf("%s", user_location);
+  printf("%s", player.location);
   printf("\n");
   printmd();
   return 0;
@@ -271,8 +275,8 @@ int userInfo(){//내정보
 
 
 int maingame(){//메인게임
-  if(user_level==0){//튜토리얼을 한번 건너뛰었을시 튜토리얼을 본걸로 처리
-    user_level=1;
+  if(player.level==0){//튜토리얼을 한번 건너뛰었을시 튜토리얼을 본걸로 처리
+    player.level=1;
   }
 while(1){//명령어사용을 위한 무한 반복
 printf("▶");
@@ -281,59 +285,59 @@ printf("▶");
   {//가이드&도움 명령어
     guide();
   }
-    
+
   else if(strcmp(user_command, "exit") == 0||strcmp(user_command, "나가기") == 0)
   {//나가기 명령어
   main();
   }
-    
+
   else if(strcmp(user_command, "info") == 0||strcmp(user_command, "정보") == 0)
   {//내 정보 표시
     userInfo();
 
   }
-    
+
   else if(strcmp(user_command, "map") == 0||strcmp(user_command, "맵") == 0||strcmp(user_command, "위치") == 0)
   {
     printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
     printf("┃ Location : ");
-  printf("%s", user_location);
+  printf("%s", player.location);
   printf("\n");
     printml("━ℕ𝕠𝕥𝕚𝕔𝕖━");
     printm("이동가능 구역");//이동가능구역 노가다
-        if(strcmp(user_location, "메인-관리-1")==0){
+        if(strcmp(player.location, "메인-관리-1")==0){
   printm(" • 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1  메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-관리-2")==0){
+  }else if(strcmp(player.location, "메인-관리-2")==0){
   printm(" • 메인-관리-1, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-관리-3")==0){
+  }else if(strcmp(player.location, "메인-관리-3")==0){
   printm(" • 메인-관리-1, 메인-관리-2");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생산-1")==0){
+  }else if(strcmp(player.location, "메인-생산-1")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생산-2")==0){
+  }else if(strcmp(player.location, "메인-생산-2")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생산-3")==0){
+  }else if(strcmp(player.location, "메인-생산-3")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2");
   printm(" • 메인-생활-1, 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생활-1")==0){
+  }else if(strcmp(player.location, "메인-생활-1")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-2, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생활-2")==0){
+  }else if(strcmp(player.location, "메인-생활-2")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-3");
-  }else if(strcmp(user_location, "메인-생활-3")==0){
+  }else if(strcmp(player.location, "메인-생활-3")==0){
   printm(" • 메인-관리-1, 메인-관리-2, 메인-관리-3");
   printm(" • 메인-생산-1, 메인-생산-2, 메인-생산-3");
   printm(" • 메인-생활-1, 메인-생활-2");
@@ -342,27 +346,27 @@ printf("▶");
   }
     printmd();
   }
-    
+
   else if(strncmp(user_command, "move ", 5) == 0)
   {//이동명령어
 strcpy(go_locate, user_command + 5);
-    
-        if(strcmp(user_location, go_locate)==0){
+
+        if(strcmp(player.location, go_locate)==0){
           printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
     printf("┃ 코드네임 \"");
-    printf("%s", user_name);
+    printf("%s", player.name);
     printf("\"님은 이미 \"");
-    printf("%s", user_location);
+    printf("%s", player.location);
     printf("\"에 있습니다.");
     printf("\n");
     printmd();
         }else{
-    
+
         if(strcmp(go_locate, "메인-관리-1")==0||strcmp(go_locate, "메인-관리-2")==0||strcmp(go_locate, "메인-관리-3")==0||strcmp(go_locate, "메인-생산-1")==0||strcmp(go_locate, "메인-생산-2")==0||strcmp(go_locate, "메인-생산-3")==0||strcmp(go_locate, "메인-생활-1")==0||strcmp(go_locate, "메인-생활-2")==0||strcmp(go_locate, "메인-생활-3")==0){
-              user_location=go_locate;
+                player.location=go_locate;
                printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
                 printf("┃ \"");
-                printf("%s", user_location);
+                printf("%s", player.location);
                 printf("\"으로 이동하였습니다.");
                 printf("\n");
                 printmd();
@@ -370,13 +374,13 @@ strcpy(go_locate, user_command + 5);
       printm1l("존재하지 않는곳으로 이동할수 없습니다.");
             }
         }
-    
+
   }
   else
   {//아무것도 해당되지 않는 명령어 일때
     printm1l("해당 명령어를 찾을수 없습니다.");
   }
-    
+
 }
 return 0;
 }
@@ -396,14 +400,14 @@ int main()  {//메인 (가장먼저 실행)
         printm("2 》게임 가이드");
         printm("3 》게임 종료");
         printmd();
-      
+
 
         printf("▶");
         scanf("%d", &user_select);//게임메뉴 선택
         if (user_select == 1)  {//게임시작 부분
               user_select = 0;
 
-          if(user_level!=0){//튜토리얼을 봤는가?(봤으면1)
+          if(player.level!=0){//튜토리얼을 봤는가?(봤으면1)
             printm1l("게임을 시작합니다.");
 
             maingame();
@@ -428,17 +432,17 @@ int main()  {//메인 (가장먼저 실행)
               printm("ID 》사용할 아이디를 직접 입력하세요!");
               printmd();
               printf("▶");
-              scanf("%s", user_name);//아이디 등록하고 가야함
+              scanf("%s", player.name);//아이디 등록하고 가야함
               usleep(100000);
               printmu("𝕊𝕥𝕖𝕝𝕃𝕚𝕗𝕖");
               printf("┃ 코드네임 \"");
-              printf("%s",user_name);
+              printf("%s",player.name);
               printf("\" 으로 등록되었습니다.\n");
               printmll(); 
               printm("스텔라 시스템 사용법이 궁금하시다면");
               printm("언제든지 \"help\"를 입력 하세요.");
                printmd();
-              user_location = "메인-관리-2";
+              player.location = "메인-관리-2";
               maingame();//메인게임
             }else{//잘못된 선택
                 user_select = 0;
@@ -457,14 +461,13 @@ int main()  {//메인 (가장먼저 실행)
             while (1) { //가이드메뉴
                   user_select = 0;
 
-                printmu("━━𝔾𝕦𝕚𝕕𝕖━");
-                printm("i 》 게임 내에서의 나의 정보를 표시합니다.");
-                printml("ℂ𝕠𝕞𝕞𝕒𝕟𝕕━");
+                guide();
+                printmu("ℂ𝕠𝕞𝕞𝕒𝕟𝕕━");
                 printm("1 》메인 화면으로 돌아가기");
                 printmd();
                 printf("▶");
                 scanf("%d", &user_select);
-                
+
                 if (user_select == 1)  {//메인화면으로 돌아갈지
                     printmu("━ℕ𝕠𝕥𝕚𝕔𝕖━");
                     printm("메인 화면으로 돌아갑니다.");
@@ -485,7 +488,7 @@ int main()  {//메인 (가장먼저 실행)
             printmu("━ℕ𝕠𝕥𝕚𝕔𝕖━");
             printm("게임을 종료합니다.");
             printmd();
-          
+
             return 0;
         } else  {//잘못된 입력
               user_select = 0;
